@@ -92,9 +92,30 @@ board.on("ready", function () {
 		controller: "GROVE"
 	});
 
-	var light = new five.Light({
-		controller: "TSL2561"
+	var touch = new five.Button(4);
+	touch.on('press', function() {
+		console.log('TOUCH PRESSED');
+		var data = {
+			event: 'TOUCH',
+			value: 'PRESS'
+		};
+		console.log('Sending device event data:\n' + data);
+		client.sendEvent(new Message(data), printErrorFor('send event'));
 	});
+
+	touch.on('release', function() {
+		console.log('TOUCH RELEASED');
+		var data = {
+			event: 'TOUCH',
+			value: 'RELEASE'
+		};
+		console.log('Sending device event data:\n' + data);
+		client.sendEvent(new Message(data), printErrorFor('send event'));
+	});
+
+	// var light = new five.Light({
+	// 	controller: "TSL2561"
+	// });
 
 	client.open(function (err, result) {
 		if (err) {
@@ -106,8 +127,6 @@ board.on("ready", function () {
 			client.on('message', function (msg) {
 				try {
 					var command = JSON.parse(msg.getData());
-					console.log('MESSAGE', msg);
-
 					switch (command.Name) {
 						case 'SetTemperature':
 							temperature = command.Parameters.Temperature;
@@ -119,11 +138,11 @@ board.on("ready", function () {
 							console.log('New humidity set to :' + humidity + '%');
 							client.complete(msg, printErrorFor('complete'));
 							break;
-						case 'SetLux':
-							lux = command.Parameters.Level;
-							console.log('New Lux set to :' + lux + '%');
-							client.complete(msg, printErrorFor('complete'));
-							break;
+						// case 'SetLux':
+						// 	lux = command.Parameters.Level;
+						// 	console.log('New Lux set to :' + lux + '%');
+						// 	client.complete(msg, printErrorFor('complete'));
+						// 	break;
 						default:
 							console.error('Unknown command: ' + command.Name);
 							client.reject(msg, printErrorFor('complete'));
@@ -137,20 +156,20 @@ board.on("ready", function () {
 			});
 
 			// start event data send routing
-			var sendInterval = setInterval(function () {
-				temperature = temp.fahrenheit;
-				lux = light.level;
-				var data = JSON.stringify({
-					'DeviceID': deviceId,
-					'Temperature': temperature,
-					'Humidity': humidity,
-					'Lux': light,
-					'ExternalTemperature': externalTemperature
-				});
-
-				console.log('Sending device event data:\n' + data);
-				client.sendEvent(new Message(data), printErrorFor('send event'));
-			}, 1000);
+			// var sendInterval = setInterval(function () {
+			// 	temperature = temp.fahrenheit;
+			// 	// lux = light.level;
+			// 	var data = JSON.stringify({
+			// 		'DeviceID': deviceId,
+			// 		'Temperature': temperature,
+			// 		'Humidity': humidity,
+			// 		// 'Lux': light,
+			// 		'ExternalTemperature': externalTemperature
+			// 	});
+			//
+			// 	console.log('Sending device event data:\n' + data);
+			// 	client.sendEvent(new Message(data), printErrorFor('send event'));
+			// }, 1000);
 
 			client.on('error', function (err) {
 				printErrorFor('client')(err);
