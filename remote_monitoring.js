@@ -93,8 +93,7 @@ board.on("ready", function () {
 	});
 
 	var light = new five.Light({
-		pin: "A1",
-		controller: "GROVE"
+		controller: "TSL2561"
 	});
 	light.on("change", function() {
 		console.log('AMBIENT LIGHT LEVEL: ', this.level);
