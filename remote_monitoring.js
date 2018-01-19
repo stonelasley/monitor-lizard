@@ -123,11 +123,11 @@ board.on("ready", function () {
 							console.log('New humidity set to :' + humidity + '%');
 							client.complete(msg, printErrorFor('complete'));
 							break;
-						// case 'SetLux':
-						// 	lumens = command.Parameters.Level;
-						// 	console.log('New Luemns set to :' + lumens + '%');
-						// 	client.complete(msg, printErrorFor('complete'));
-						// 	break;
+						case 'SetLux':
+							lumens = command.Parameters.Level;
+							console.log('New Luemns set to :' + lumens + '%');
+							client.complete(msg, printErrorFor('complete'));
+							break;
 						default:
 							console.error('Unknown command: ' + command.Name);
 							client.reject(msg, printErrorFor('complete'));
