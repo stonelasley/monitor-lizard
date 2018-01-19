@@ -93,22 +93,22 @@ board.on("ready", function () {
 	});
 
 	var touch = new five.Button(4);
-	touch.on('press', function() {
+	touch.on('press', function () {
 		console.log('TOUCH PRESSED');
-		var data = {
-			event: 'TOUCH',
-			value: 'PRESS'
-		};
+		var data = JSON.stringify({
+			'DeviceID': deviceId,
+			'Touched': true
+		});
 		console.log('Sending device event data:\n' + data);
 		client.sendEvent(new Message(data), printErrorFor('send event'));
 	});
 
-	touch.on('release', function() {
+	touch.on('release', function () {
 		console.log('TOUCH RELEASED');
-		var data = {
-			event: 'TOUCH',
-			value: 'RELEASE'
-		};
+		var data = JSON.stringify({
+			'DeviceID': deviceId,
+			'Touched': false
+		});
 		console.log('Sending device event data:\n' + data);
 		client.sendEvent(new Message(data), printErrorFor('send event'));
 	});
