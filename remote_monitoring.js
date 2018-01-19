@@ -91,8 +91,10 @@ board.on("ready", function () {
 		pin: "A0",
 		controller: "GROVE"
 	});
-
 	var touch = new five.Button(4);
+	var acceleration = new five.Accelerometer({
+		controller: "MMA7660"
+	});
 	touch.on('press', function () {
 		console.log('TOUCH PRESSED');
 		var data = JSON.stringify({
@@ -102,7 +104,6 @@ board.on("ready", function () {
 		console.log('Sending device event data:\n' + data);
 		client.sendEvent(new Message(data), printErrorFor('send event'));
 	});
-
 	touch.on('release', function () {
 		console.log('TOUCH RELEASED');
 		var data = JSON.stringify({
@@ -112,10 +113,20 @@ board.on("ready", function () {
 		console.log('Sending device event data:\n' + data);
 		client.sendEvent(new Message(data), printErrorFor('send event'));
 	});
+	acceleration.on('change', function() {
+		console.log('ACCELEROMETER CHANGED');
+		var data = JSON.stringify({
+			'DeviceID': deviceId,
+			'x': this.x,
+			'y': this.y,
+			'z': this.z,
+			'pitch': this.pitch,
+			'roll': this.roll,
+		});
+		console.log('Sending device event data:\n' + data);
+		client.sendEvent(new Message(data), printErrorFor('send event'));
+	});
 
-	// var light = new five.Light({
-	// 	controller: "TSL2561"
-	// });
 
 	client.open(function (err, result) {
 		if (err) {
