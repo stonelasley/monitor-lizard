@@ -117,11 +117,10 @@ board.on("ready", function () {
 		console.log('ACCELEROMETER CHANGED');
 		var data = JSON.stringify({
 			'DeviceID': deviceId,
-			'x': this.x,
-			'y': this.y,
-			'z': this.z,
 			'pitch': this.pitch,
 			'roll': this.roll,
+			'orientation': this.orientation,
+			'inclination': this.inclination,
 		});
 		console.log('Sending device event data:\n' + data);
 		client.sendEvent(new Message(data), printErrorFor('send event'));
