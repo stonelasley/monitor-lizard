@@ -28,7 +28,7 @@ var connectionString = 'HostName=' + hostName + ';DeviceId=' + deviceId + ';Shar
 var temperature = 0;
 var humidity = 0;
 var externalTemperature = 0;
-var lumens = 0;
+var lux = 0;
 
 // Create IoT Hub client
 var client = Client.fromConnectionString(connectionString, Protocol);
@@ -95,10 +95,6 @@ board.on("ready", function () {
 	var light = new five.Light({
 		controller: "TSL2561"
 	});
-	light.on("change", function() {
-		console.log('AMBIENT LIGHT LEVEL: ', this.level);
-	});
-
 
 	client.open(function (err, result) {
 		if (err) {
@@ -124,8 +120,8 @@ board.on("ready", function () {
 							client.complete(msg, printErrorFor('complete'));
 							break;
 						case 'SetLux':
-							lumens = command.Parameters.Level;
-							console.log('New Luemns set to :' + lumens + '%');
+							lux = command.Parameters.Level;
+							console.log('New Lux set to :' + lux + '%');
 							client.complete(msg, printErrorFor('complete'));
 							break;
 						default:
@@ -143,11 +139,12 @@ board.on("ready", function () {
 			// start event data send routing
 			var sendInterval = setInterval(function () {
 				temperature = temp.fahrenheit;
+				lux = light.level;
 				var data = JSON.stringify({
 					'DeviceID': deviceId,
 					'Temperature': temperature,
 					'Humidity': humidity,
-					// 'Lumens': lumens,
+					'Lux': light,
 					'ExternalTemperature': externalTemperature
 				});
 
