@@ -92,10 +92,14 @@ board.on("ready", function () {
 		controller: "GROVE"
 	});
 
-	var lignt = new five.Light({
+	var light = new five.Light({
 		pin: "A1",
 		controller: "GROVE"
 	});
+	light.on("change", function() {
+		console.log('AMBIENT LIGHT LEVEL: ', this.level);
+	});
+
 
 	client.open(function (err, result) {
 		if (err) {
@@ -121,11 +125,11 @@ board.on("ready", function () {
 							console.log('New humidity set to :' + humidity + '%');
 							client.complete(msg, printErrorFor('complete'));
 							break;
-						case 'SetLumens':
-							lumens = command.Parameters.Level;
-							console.log('New Luemns set to :' + lumens + '%');
-							client.complete(msg, printErrorFor('complete'));
-							break;
+						// case 'SetLumens':
+						// 	lumens = command.Parameters.Level;
+						// 	console.log('New Luemns set to :' + lumens + '%');
+						// 	client.complete(msg, printErrorFor('complete'));
+						// 	break;
 						default:
 							console.error('Unknown command: ' + command.Name);
 							client.reject(msg, printErrorFor('complete'));
@@ -145,7 +149,7 @@ board.on("ready", function () {
 					'DeviceID': deviceId,
 					'Temperature': temperature,
 					'Humidity': humidity,
-					'Lumens': lumens,
+					// 'Lumens': lumens,
 					'ExternalTemperature': externalTemperature
 				});
 
