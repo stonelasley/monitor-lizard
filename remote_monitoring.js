@@ -76,7 +76,7 @@ var deviceMetaData = {
 			}]
 		},
 		{
-			'Name': 'SetLumens',
+			'Name': 'SetLux',
 			'Parameters': [{
 				'Name': 'Level',
 				'Type': 'double'
@@ -108,10 +108,9 @@ board.on("ready", function () {
 			client.sendEvent(new Message(JSON.stringify(deviceMetaData)), printErrorFor('send metadata'));
 
 			client.on('message', function (msg) {
-				console.log('receive data: ' + msg.getData());
-
 				try {
 					var command = JSON.parse(msg.getData());
+					console.log('MESSAGE', msg);
 
 					switch (command.Name) {
 						case 'SetTemperature':
@@ -124,7 +123,7 @@ board.on("ready", function () {
 							console.log('New humidity set to :' + humidity + '%');
 							client.complete(msg, printErrorFor('complete'));
 							break;
-						// case 'SetLumens':
+						// case 'SetLux':
 						// 	lumens = command.Parameters.Level;
 						// 	console.log('New Luemns set to :' + lumens + '%');
 						// 	client.complete(msg, printErrorFor('complete'));
@@ -143,7 +142,7 @@ board.on("ready", function () {
 
 			// start event data send routing
 			var sendInterval = setInterval(function () {
-				temperature = temp.celsius;
+				temperature = temp.fahrenheit;
 				var data = JSON.stringify({
 					'DeviceID': deviceId,
 					'Temperature': temperature,
