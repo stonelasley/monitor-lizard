@@ -28,6 +28,7 @@ var connectionString = 'HostName=' + hostName + ';DeviceId=' + deviceId + ';Shar
 var temperature = 0;
 var humidity = 0;
 var externalTemperature = 0;
+var lumens = 0;
 
 // Create IoT Hub client
 var client = Client.fromConnectionString(connectionString, Protocol);
