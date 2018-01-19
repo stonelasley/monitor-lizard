@@ -92,6 +92,11 @@ board.on("ready", function () {
 		controller: "GROVE"
 	});
 
+	var lignt = new five.Light({
+		pin: "A1",
+		controller: "GROVE"
+	});
+
 	client.open(function (err, result) {
 		if (err) {
 			printErrorFor('open')(err);
