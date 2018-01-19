@@ -78,7 +78,7 @@ var deviceMetaData = {
 		{
 			'Name': 'SetLumens',
 			'Parameters': [{
-				'Name': 'Lumens',
+				'Name': 'Level',
 				'Type': 'double'
 			}]
 		}
@@ -122,7 +122,7 @@ board.on("ready", function () {
 							client.complete(msg, printErrorFor('complete'));
 							break;
 						case 'SetLumens':
-							humidity = command.Parameters.Lumens;
+							lumens = command.Parameters.Level;
 							console.log('New Luemns set to :' + lumens + '%');
 							client.complete(msg, printErrorFor('complete'));
 							break;
