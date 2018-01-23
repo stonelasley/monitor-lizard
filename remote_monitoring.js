@@ -125,6 +125,8 @@ board.on("ready", function () {
 		console.log('Sending device event data:\n' + data);
 		client.sendEvent(new Message(data), printErrorFor('send event'));
 	});
+	var led = new five.Led(6);
+	led.blink(1000);
 
 
 	client.open(function (err, result) {
@@ -181,11 +183,11 @@ board.on("ready", function () {
 			// 	client.sendEvent(new Message(data), printErrorFor('send event'));
 			// }, 1000);
 
-			client.on('error', function (err) {
-				printErrorFor('client')(err);
-				if (sendInterval) clearInterval(sendInterval);
-				client.close();
-			});
+			// client.on('error', function (err) {
+			// 	printErrorFor('client')(err);
+			// 	if (sendInterval) clearInterval(sendInterval);
+			// 	client.close();
+			// });
 		}
 	});
 });
