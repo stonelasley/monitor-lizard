@@ -102,7 +102,7 @@ board.on("ready", function () {
 			'Touched': true
 		});
 		console.log('Sending device event data:\n' + data);
-		client.sendEvent(new Message(data), printErrorFor('send event'));
+	//	client.sendEvent(new Message(data), printErrorFor('send event'));
 	});
 	touch.on('release', function () {
 		console.log('TOUCH RELEASED');
@@ -111,7 +111,7 @@ board.on("ready", function () {
 			'Touched': false
 		});
 		console.log('Sending device event data:\n' + data);
-		client.sendEvent(new Message(data), printErrorFor('send event'));
+//		client.sendEvent(new Message(data), printErrorFor('send event'));
 	});
 	acceleration.on('change', function() {
 		console.log('ACCELEROMETER CHANGED');
@@ -123,7 +123,7 @@ board.on("ready", function () {
 			'inclination': this.inclination,
 		});
 		console.log('Sending device event data:\n' + data);
-		client.sendEvent(new Message(data), printErrorFor('send event'));
+	// 	client.sendEvent(new Message(data), printErrorFor('send event'));
 	});
 	var led = new five.Led(6);
 	led.blink(1000);
